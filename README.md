@@ -1,10 +1,9 @@
 # Twitch Chat Quick Chat
-
-A lightweight BakkesMod plugin that displays Twitch chat messages in your in-game chatbox.
+BakkesMod plugin that displays Twitch chat messages in your in-game chatbox (and MORE!).
 
 ## Features
 - Display incoming Twitch chat messages in the local in-game chatbox (they are not sent to the game server or other players).
-- Works in most BakkesMod contexts (freeplay, custom training, spectator, replay, bot AI) ((even online!))
+- Automatic Twitch Predictions for most gamemodes (excludes: Freeplay, Custom Training, Replays).
 
 ## Troubleshooting
 - If authentication fails: ensure port 3000 is free.
@@ -12,8 +11,5 @@ A lightweight BakkesMod plugin that displays Twitch chat messages in your in-gam
 
 ## Requirements
 - Windows with Rocket League + BakkesMod
-- C++20 toolchain compatible with Visual Studio 2022
+- C++ toolchain compatible with Visual Studio 2022
 - OpenSSL & cpp-httplib via vcpkg
-
-## Notes
-I found this idea to be simple, yet really cool. I figured I'd share it in case anyone else found it useful. Enjoy!

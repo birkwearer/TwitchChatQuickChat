@@ -39,3 +39,12 @@
 
 # debug information files
 *.dwo
+
+# Extras
+.vs
+.github
+vcpkg_installed
+vcpkg
+vcpkg.json
+build
+plugins

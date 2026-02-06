@@ -11,8 +11,8 @@
     <ProjectGuid>{03bd7e8d-8657-48d9-a39c-ffa6f69eee08}</ProjectGuid>
     <RootNamespace>TwitchChatQuickChat</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-<VcpkgTriplet>x64-windows-static</VcpkgTriplet>
-      <VcpkgEnabled>true</VcpkgEnabled>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
+    <VcpkgEnabled>true</VcpkgEnabled>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -99,6 +99,8 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AutoPredictions.cpp" />
+    <ClCompile Include="Chat.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imguivariouscontrols.cpp" />
     <ClCompile Include="imgui\imgui_additions.cpp" />
@@ -111,6 +113,7 @@
     <ClCompile Include="IMGUI\imgui_stdlib.cpp" />
     <ClCompile Include="imgui\imgui_timeline.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Login.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -124,6 +127,8 @@
     <ClCompile Include="URL.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AutoPredictions.h" />
+    <ClInclude Include="Chat.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -140,6 +145,7 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="logging.h" />
+    <ClInclude Include="Login.h" />
     <ClInclude Include="openssl\openssl\macros.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="GuiBase.h" />

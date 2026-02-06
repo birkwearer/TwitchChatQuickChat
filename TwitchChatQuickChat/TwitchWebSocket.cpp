@@ -23,7 +23,7 @@ bool TwitchWebSocket::Connect(const std::string& accessToken, const std::string&
     // Create socket
     socket_ = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (socket_ == INVALID_SOCKET) {
-        LOG("Failed to create socket");
+        //LOG("Failed to create socket");
         return false;
     }
 
@@ -33,14 +33,14 @@ bool TwitchWebSocket::Connect(const std::string& accessToken, const std::string&
     hints.ai_socktype = SOCK_STREAM;
     
     if (getaddrinfo("irc-ws.chat.twitch.tv", "443", &hints, &result) != 0) {
-        LOG("Failed to resolve Twitch IRC hostname");
+        //LOG("Failed to resolve Twitch IRC hostname");
         closesocket(socket_);
         return false;
     }
 
     // Connect
     if (connect(socket_, result->ai_addr, static_cast<int>(result->ai_addrlen)) == SOCKET_ERROR) {
-        LOG("Failed to connect to Twitch IRC");
+        //LOG("Failed to connect to Twitch IRC");
         freeaddrinfo(result);
         closesocket(socket_);
         return false;
@@ -53,7 +53,7 @@ bool TwitchWebSocket::Connect(const std::string& accessToken, const std::string&
     
     sslCtx_ = SSL_CTX_new(TLS_client_method());
     if (!sslCtx_) {
-        LOG("Failed to create SSL context");
+        //LOG("Failed to create SSL context");
         closesocket(socket_);
         return false;
     }
@@ -63,7 +63,7 @@ bool TwitchWebSocket::Connect(const std::string& accessToken, const std::string&
     SSL_set_tlsext_host_name(ssl_, "irc-ws.chat.twitch.tv");
 
     if (SSL_connect(ssl_) != 1) {
-        LOG("SSL handshake failed");
+        //LOG("SSL handshake failed");
         SSL_free(ssl_);
         SSL_CTX_free(sslCtx_);
         closesocket(socket_);
@@ -72,7 +72,7 @@ bool TwitchWebSocket::Connect(const std::string& accessToken, const std::string&
 
     // Perform WebSocket handshake
     if (!PerformWebSocketHandshake()) {
-        LOG("WebSocket handshake failed");
+        //LOG("WebSocket handshake failed");
         Disconnect();
         return false;
     }
@@ -88,7 +88,7 @@ bool TwitchWebSocket::Connect(const std::string& accessToken, const std::string&
     // Start read loop
     readThread_ = std::thread(&TwitchWebSocket::ReadLoop, this);
 
-    LOG("Connected to Twitch IRC for channel: #{}", channel_);
+    //LOG("Connected to Twitch IRC for channel: #{}", channel_);
     return true;
 }
 

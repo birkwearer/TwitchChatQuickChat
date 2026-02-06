@@ -87,13 +87,22 @@
     <ClCompile Include="TwithChatQuickChatPluginSettings.cpp">
       <Filter>Plugin\src</Filter>
     </ClCompile>
-    <ClCompile Include="TwitchWebSocket.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="URL.cpp">
+      <Filter>Plugin\src</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoPredictions.cpp">
+      <Filter>Plugin\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Chat.cpp">
+      <Filter>Plugin\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>Plugin\src</Filter>
     </ClCompile>
     <ClCompile Include="TwitchEventSub.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Plugin\src</Filter>
     </ClCompile>
-    <ClCompile Include="URL.cpp">
+    <ClCompile Include="TwitchWebSocket.cpp">
       <Filter>Plugin\src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -171,6 +180,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="URL.h">
+      <Filter>Plugin\header</Filter>
+    </ClInclude>
+    <ClInclude Include="Chat.h">
+      <Filter>Plugin\header</Filter>
+    </ClInclude>
+    <ClInclude Include="Login.h">
+      <Filter>Plugin\header</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoPredictions.h">
       <Filter>Plugin\header</Filter>
     </ClInclude>
   </ItemGroup>

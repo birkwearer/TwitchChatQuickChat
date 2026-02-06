@@ -2,44 +2,34 @@
 
 #include "GuiBase.h"
 #include "bakkesmod/plugin/bakkesmodplugin.h"
-#include "bakkesmod/plugin/pluginwindow.h"
 #include "bakkesmod/plugin/PluginSettingsWindow.h"
-#include "TwitchEventSub.h"
-#include <functional>
+#include "Login.h"
+#include "Chat.h"
+#include "AutoPredictions.h"
 #include "version.h"
+
 constexpr auto plugin_version = stringify(VERSION_MAJOR) "." stringify(VERSION_MINOR) "." stringify(VERSION_PATCH) "." stringify(VERSION_BUILD);
 
-
 class TwitchChatQuickChat: public BakkesMod::Plugin::BakkesModPlugin
-	,public SettingsWindowBase
-	,public PluginWindowBase
+    ,public SettingsWindowBase
 {
-	// Authentication state
-	std::string accessToken_;
-	std::string twitchUsername_;
-	std::string twitchUserId_;
-	std::string twitchChannel_;
-	std::string twitchChannelId_;
-	bool isLoggedIn_ = false;
-	bool isAuthenticating_ = false;
+    // Feature modules
+    std::unique_ptr<Login> login_;
+    std::unique_ptr<Chat> chat_;
+    std::unique_ptr<AutoPredictions> autoPredictions_;
 
-	// EventSub connection
-	std::unique_ptr<TwitchEventSub> twitchEventSub_;
+    // Channel state
+    std::string twitchChannel_;
+    std::string twitchChannelId_;
 
-	void onLoad() override;
-	void onUnload() override;
-	void LetChat();
+    void onLoad() override;
+    void onUnload() override;
 
-	// Authentication
-	void StartOAuthFlow();
-	void OnTokenReceived(const std::string& accessToken);
-	
-	// Chat connection
-	void ConnectToTwitchChat();
-	void OnTwitchMessage(const std::string& username, const std::string& message);
-	void FetchBroadcasterId(const std::string& channel, std::function<void(const std::string&)> callback);
+    // Helper methods called by CVars and settings
+    void ConnectToTwitchChat();
+    void EnablePredictions();
+    void OnLoginComplete();
 
 public:
-	void RenderSettings() override;
-	void RenderWindow() override;
+    void RenderSettings() override;
 };

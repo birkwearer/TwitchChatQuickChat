@@ -26,7 +26,7 @@ bool TwitchEventSub::Connect(const std::string& accessToken, const std::string& 
     // Create socket
     socket_ = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (socket_ == INVALID_SOCKET) {
-        LOG("Failed to create socket");
+        //LOG("Failed to create socket");
         return false;
     }
 
@@ -36,14 +36,14 @@ bool TwitchEventSub::Connect(const std::string& accessToken, const std::string& 
     hints.ai_socktype = SOCK_STREAM;
     
     if (getaddrinfo("eventsub.wss.twitch.tv", "443", &hints, &result) != 0) {
-        LOG("Failed to resolve EventSub hostname");
+        //LOG("Failed to resolve EventSub hostname");
         closesocket(socket_);
         return false;
     }
 
     // Connect
     if (connect(socket_, result->ai_addr, static_cast<int>(result->ai_addrlen)) == SOCKET_ERROR) {
-        LOG("Failed to connect to EventSub");
+        //LOG("Failed to connect to EventSub");
         freeaddrinfo(result);
         closesocket(socket_);
         return false;
@@ -56,7 +56,7 @@ bool TwitchEventSub::Connect(const std::string& accessToken, const std::string& 
     
     sslCtx_ = SSL_CTX_new(TLS_client_method());
     if (!sslCtx_) {
-        LOG("Failed to create SSL context");
+        //LOG("Failed to create SSL context");
         closesocket(socket_);
         return false;
     }
@@ -66,7 +66,7 @@ bool TwitchEventSub::Connect(const std::string& accessToken, const std::string& 
     SSL_set_tlsext_host_name(ssl_, "eventsub.wss.twitch.tv");
 
     if (SSL_connect(ssl_) != 1) {
-        LOG("SSL handshake failed");
+        //LOG("SSL handshake failed");
         SSL_free(ssl_);
         SSL_CTX_free(sslCtx_);
         closesocket(socket_);
@@ -75,7 +75,7 @@ bool TwitchEventSub::Connect(const std::string& accessToken, const std::string& 
 
     // Perform WebSocket handshake
     if (!PerformWebSocketHandshake()) {
-        LOG("WebSocket handshake failed");
+        //LOG("WebSocket handshake failed");
         Disconnect();
         return false;
     }
@@ -85,7 +85,7 @@ bool TwitchEventSub::Connect(const std::string& accessToken, const std::string& 
     // Start read loop - subscription happens after receiving session_welcome
     readThread_ = std::thread(&TwitchEventSub::ReadLoop, this);
 
-    LOG("Connected to Twitch EventSub WebSocket");
+    //LOG("Connected to Twitch EventSub WebSocket");
     return true;
 }
 
@@ -301,7 +301,7 @@ std::string TwitchEventSub::ParseJsonString(const std::string& json, const std::
 }
 
 bool TwitchEventSub::SubscribeToChatMessages(const std::string& sessionId) {
-    LOG("Subscribing to chat messages with session: {}", sessionId);
+    //LOG("Subscribing to chat messages with session: {}", sessionId);
     
     // Use httplib to make the subscription request
     httplib::SSLClient client("api.twitch.tv");
@@ -329,35 +329,35 @@ bool TwitchEventSub::SubscribeToChatMessages(const std::string& sessionId) {
          << "}"
          << "}";
     
-    LOG("Subscription request: {}", json.str());
+    //LOG("Subscription request: {}", json.str());
     
     auto result = client.Post("/helix/eventsub/subscriptions", headers, json.str(), "application/json");
     
     if (!result) {
-        LOG("Subscription request failed - no response");
+        //LOG("Subscription request failed - no response");
         return false;
     }
     
-    LOG("Subscription response: {} - {}", result->status, result->body);
+    //LOG("Subscription response: {} - {}", result->status, result->body);
     
     if (result->status == 202) {
-        LOG("Successfully subscribed to chat messages");
+        //LOG("Successfully subscribed to chat messages");
         return true;
     }
     
-    LOG("Subscription failed with status {}", result->status);
+    //LOG("Subscription failed with status {}", result->status);
     return false;
 }
 
 void TwitchEventSub::HandleMessage(const std::string& payload) {
-    LOG("EventSub message: {}", payload);
+    //LOG("EventSub message: {}", payload);
     
     // Handle session_welcome
     if (payload.find("\"session_welcome\"") != std::string::npos || 
         payload.find("\"message_type\":\"session_welcome\"") != std::string::npos) {
         std::string sessionId = ParseJsonString(payload, "id");
         if (!sessionId.empty()) {
-            LOG("Received session_welcome with id: {}", sessionId);
+            //LOG("Received session_welcome with id: {}", sessionId);
             // Subscribe in a separate thread to not block the read loop
             std::thread([this, sessionId]() {
                 SubscribeToChatMessages(sessionId);
